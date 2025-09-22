@@ -17,7 +17,6 @@ const CustomWheel: React.FC = () => {
   const [items, setItems] = useState([
     "三天不撸",
     "永远不撸",
-    "三天不撸",
     "一天不撸",
     "撸到昏",
     "再转一次",
