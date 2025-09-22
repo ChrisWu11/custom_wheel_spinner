@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { History, Shuffle, Play, Edit3 } from "lucide-react";
+import { History, Shuffle, Play, Edit3, Menu, Heart } from "lucide-react";
 import EditModal from "./EditModal";
 import HistoryModal from "./HistoryModal";
+import MenuModal from "./MenuModal";
 import { generateColors } from "../../utils/colorGenerator";
 import {
   loadWheelData,
@@ -35,6 +36,7 @@ const CustomWheel: React.FC = () => {
   const [spinDuration, setSpinDuration] = useState(3000);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [showMenuModal, setShowMenuModal] = useState(false);
   const [history, setHistory] = useState<HistoryRecord[]>([]);
   const wheelRef = useRef<HTMLDivElement>(null);
   const [colors, setColors] = useState<string[]>(() =>
@@ -147,6 +149,7 @@ const CustomWheel: React.FC = () => {
     saveWheelData(data);
 
     setShowHistoryModal(false);
+    setShowMenuModal(false);
   };
 
   return (
@@ -305,20 +308,20 @@ const CustomWheel: React.FC = () => {
 
         <div className="controls">
           <button
-            onClick={() => setShowHistoryModal(true)}
+            onClick={() => setShowMenuModal(true)}
             className="control-btn"
           >
-            <History size={20} />
-            <span>历史记录</span>
+            <Menu size={20} />
+            <span>主题</span>
           </button>
 
           <button
             onClick={shuffleItems}
-            className="control-btn"
+            className="control-btn "
             disabled={isSpinning}
           >
             <Shuffle size={20} />
-            <span>打乱顺序</span>
+            <span className="text">打乱顺序</span>
           </button>
 
           <button
@@ -329,6 +332,22 @@ const CustomWheel: React.FC = () => {
             <span>编辑</span>
           </button>
         </div>
+
+        <button
+          onClick={() => setShowHistoryModal(true)}
+          className="control-btn history-btn"
+        >
+          <History size={20} />
+        </button>
+
+        {/* <button
+          onClick={shuffleItems}
+          className="control-btn shuffle-btn"
+          disabled={isSpinning}
+        >
+          <Shuffle size={20} />
+          <span className="text">打乱顺序</span>
+        </button> */}
       </div>
 
       {showEditModal && (
@@ -337,6 +356,7 @@ const CustomWheel: React.FC = () => {
           items={items}
           spinDuration={spinDuration}
           onSave={handleSaveEdit}
+          shuffleItems={shuffleItems}
           onClose={() => setShowEditModal(false)}
         />
       )}
@@ -348,6 +368,15 @@ const CustomWheel: React.FC = () => {
           onClearHistory={handleClearHistory}
           onApplyConfig={handleApplyConfig}
           onClose={() => setShowHistoryModal(false)}
+        />
+      )}
+
+      {showMenuModal && (
+        <MenuModal
+          // onDeleteRecord={handleDeleteRecord}
+          // onClearHistory={handleClearHistory}
+          onApplyConfig={handleApplyConfig}
+          onClose={() => setShowMenuModal(false)}
         />
       )}
     </div>

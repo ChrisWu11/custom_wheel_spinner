@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { X, Trash2, Plus } from 'lucide-react';
-import { WheelData } from '../../types';
+import React, { useState } from "react";
+import { X, Trash2, Plus } from "lucide-react";
+import { WheelData } from "../../types";
 
 interface EditModalProps {
   title: string;
   items: string[];
   spinDuration: number;
+  shuffleItems: () => void;
   onSave: (data: WheelData) => void;
   onClose: () => void;
 }
@@ -14,8 +15,9 @@ const EditModal: React.FC<EditModalProps> = ({
   title,
   items,
   spinDuration,
+  shuffleItems,
   onSave,
-  onClose
+  onClose,
 }) => {
   const [editTitle, setEditTitle] = useState(title);
   const [editItems, setEditItems] = useState([...items]);
@@ -40,8 +42,8 @@ const EditModal: React.FC<EditModalProps> = ({
   const saveChanges = () => {
     onSave({
       title: editTitle,
-      items: editItems.filter(item => item.trim()),
-      spinDuration: editDuration
+      items: editItems.filter((item) => item.trim()),
+      spinDuration: editDuration,
     });
   };
 
@@ -54,7 +56,7 @@ const EditModal: React.FC<EditModalProps> = ({
             <X size={20} />
           </button>
         </div>
-        
+
         <div className="modal-content">
           <div className="form-group">
             <label>标题</label>
@@ -81,7 +83,14 @@ const EditModal: React.FC<EditModalProps> = ({
           </div>
 
           <div className="form-group">
-            <label>转盘选项</label>
+            <label
+              style={{ display: "flex", alignItems: "center", gap: "10px" }}
+            >
+              转盘选项
+              {/* <button onClick={shuffleItems} className="shuffle-btn">
+                打乱顺序
+              </button> */}
+            </label>
             <div className="items-list">
               {editItems.map((item, index) => (
                 <div key={index} className="item-row">

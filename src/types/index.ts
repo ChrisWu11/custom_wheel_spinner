@@ -1,8 +1,8 @@
 export interface HistoryRecord {
   id: number;
   title: string;
-  result: string;
-  timestamp: string;
+  result?: string;
+  timestamp?: string;
   items: string[];
 }
 
